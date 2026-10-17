@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>জ্ঞানের ভান্ডার · خزانة المعرفة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f0d;--card:#151a18;--field:#1d2220;--line:#2d3532;--text:#f1f3f0;--muted:#8f9b95;--gold:#c9a15a;--ok:#7fd8a8;--err:#ff8a7a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(900px 500px at 50% -10%,#1f2a25,var(--bg));color:var(--text);font-family:"Hind Siliguri",system-ui,sans-serif;line-height:1.55;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.ar{font-family:Amiri,serif;color:var(--gold);font-size:1.5rem;line-height:1.4;margin:0}
+.bn{margin:0;font-weight:600;font-size:.95rem}
+.btn{padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--text);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.g{background:linear-gradient(90deg,#3a403d,var(--gold) 90%);border:0;color:#fff}
+.in{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--text);font:inherit;font-size:1rem;margin-bottom:10px}
+.in:focus{outline:2px solid var(--gold)}
+.hide{display:none}
+.tabs{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto}
+.tab{flex:0 0 auto;padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--field);color:var(--text);font:inherit;cursor:pointer}
+.tab.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:10px}
+.card h3{margin:0 0 4px;font-size:1.05rem}
+.meta{color:var(--muted);font-size:.85rem;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.msg{min-height:1.3em;font-size:.9rem;margin:8px 0}
+</style></head><body><div class="wrap">
+<div class="top"><div><p class="ar" lang="ar" dir="rtl">خَزَانَةُ المَعْرِفَة</p><p class="bn">জ্ঞানের ভান্ডার · Treasury of Knowledge</p></div>
+<div class="row"><a class="btn g hide" id="adm" href="admin.html">＋ আপলোড</a><button class="btn" id="out" type="button">সাইন আউট</button></div></div>
+<input class="in" id="q" type="search" placeholder="খুঁজুন…" aria-label="খুঁজুন">
+<div class="tabs" id="tabs"><button class="tab on" data-k="all">সব</button><button class="tab" data-k="note">নোট</button><button class="tab" data-k="book">বই</button></div>
+<select class="in" id="cat" aria-label="বিভাগ"></select>
+<p class="msg" id="st" style="color:var(--muted)">লোড হচ্ছে…</p>
+<div id="list"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+var sb=window.supabase.createClient("https://jlkyzwqnieknswawveua.supabase.co","sb_publishable_63D7T265mnvAsqB2n5o0CA_aYuSfeBk");
+var CATS=["কুরআন ও তাফসীর","হাদীস","ফিকহ","আকীদা","সীরাত","আরবি ভাষা","ইতিহাস","সাধারণ জ্ঞান","অন্যান্য"];
+var $=function(i){return document.getElementById(i)};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function meta(it){return (it.kind==="book"?"বই":"নোট")+" · "+it.category+" · "+new Date(it.created_at).toLocaleDateString("bn-BD")}
+sb.auth.onAuthStateChange(function(ev){if(ev==="SIGNED_OUT")location.replace("index.html")});
+
+var all=[],kind="all";
+async function openFile(it,dl){
+var w=dl?null:window.open("","_blank");
+var r=await sb.storage.from("library").createSignedUrl(it.file_path,3600,dl?{download:it.file_name||true}:undefined);
+if(r.error){if(w)w.close();alert("ফাইল খোলা যায়নি");return}
+if(w)w.location=r.data.signedUrl;else location.href=r.data.signedUrl}
+function render(){
+var q=$("q").value.trim().toLowerCase(),c=$("cat").value,L=$("list"),n=0;L.innerHTML="";
+all.forEach(function(it){
+if(kind!=="all"&&it.kind!==kind)return;if(c&&it.category!==c)return;
+if(q&&it.title.toLowerCase().indexOf(q)<0)return;n++;
+var d=el("div","card");d.appendChild(el("h3","",it.title));d.appendChild(el("div","meta",meta(it)));
+var r=el("div","row"),a=el("button","btn g","খুলুন"),b=el("button","btn","ডাউনলোড");
+a.onclick=function(){openFile(it,false)};b.onclick=function(){openFile(it,true)};
+r.appendChild(a);r.appendChild(b);d.appendChild(r);L.appendChild(d)});
+$("st").textContent=n?"":(all.length?"কিছু পাওয়া যায়নি":"এখনো কিছু আপলোড করা হয়নি")}
+async function init(){
+var s=await sb.auth.getSession();
+if(!s.data.session){location.replace("index.html");return}
+var o=el("option","","সব বিভাগ");o.value="";$("cat").appendChild(o);
+CATS.forEach(function(x){var p=el("option","",x);p.value=x;$("cat").appendChild(p)});
+sb.from("admins").select("user_id").eq("user_id",s.data.session.user.id).maybeSingle().then(function(r){if(r.data)$("adm").classList.remove("hide")});
+var r=await sb.from("items").select("*").order("created_at",{ascending:false});
+if(r.error){$("st").textContent="তালিকা লোড করা যায়নি (setup.sql চালানো হয়েছে কি?)";return}
+all=r.data;render()}
+$("q").oninput=render;$("cat").onchange=render;
+$("tabs").onclick=function(e){var b=e.target.closest(".tab");if(!b)return;kind=b.dataset.k;
+document.querySelectorAll(".tab").forEach(function(t){t.classList.toggle("on",t===b)});render()};
+$("out").onclick=function(){sb.auth.signOut()};
+
+init();
+</script></body></html>
