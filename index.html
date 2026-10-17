@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>লগইন · খাযানাতুল মা’রিফা</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f0d;--card:rgba(24,28,26,.82);--field:#1d2220;--line:#2d3532;--text:#f1f3f0;--muted:#8f9b95;--gold:#c9a15a;--gold2:#9a7437;--err:#ff8a7a;--ok:#7fd8a8;
+color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 50% -10%,#1f2a25,var(--bg));color:var(--text);font-family:"Hind Siliguri",system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.wrap{width:100%;max-width:400px}
+.brand{text-align:center;margin-bottom:18px}
+.ar{font-family:"Amiri",serif;font-size:2.2rem;color:var(--gold);margin:0;line-height:1.5}
+.bn{margin:0;font-weight:600;font-size:1.2rem}
+.en{margin:0;color:var(--muted);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px 20px;backdrop-filter:blur(10px)}
+h1{text-align:center;font-size:1.7rem;font-weight:500;margin:0}
+h1 span{color:var(--gold)}
+.sub{text-align:center;color:var(--muted);margin:6px 0 20px;font-size:.95rem}
+.f{background:var(--field);border:1px solid var(--line);border-radius:14px;padding:8px 14px;margin-bottom:12px;position:relative}
+.f label{display:block;font-size:.78rem;color:var(--muted)}
+.f input{width:100%;background:none;border:0;color:var(--text);font:inherit;font-size:1rem;padding:2px 34px 2px 0;outline:none}
+.f:focus-within{border-color:var(--gold)}
+.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);cursor:pointer;font-size:1.1rem}
+.forgot{text-align:right;margin:-2px 0 14px}
+a,.lnk{color:var(--gold);text-decoration:none;font-size:.88rem;background:none;border:0;font-family:inherit;cursor:pointer;padding:0}
+.btn{width:100%;padding:14px;border:0;border-radius:14px;color:#111;font:inherit;font-weight:600;font-size:1rem;cursor:pointer;background:linear-gradient(90deg,#3a403d,var(--gold) 90%);color:#fff}
+.msg{min-height:1.3em;text-align:center;font-size:.88rem;margin:10px 0 0}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem;margin:18px 0 14px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.soc{display:flex;justify-content:center;gap:14px}
+.soc button{width:58px;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--field);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sw{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0 0}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="brand">
+<p class="ar" lang="ar" dir="rtl">خَزَانَةُ المَعْرِفَة</p>
+<p class="bn">জ্ঞানের ভান্ডার</p>
+<p class="en">Treasury of Knowledge</p>
+</div>
+<div class="card">
+<div id="authView">
+<h1 id="ttl">স্বাগতম <span>ফিরে আসুন</span></h1>
+<p class="sub" id="sub">চালিয়ে যেতে সাইন ইন করুন</p>
+<form id="frm" novalidate>
+<div class="f hide" id="gName"><label for="name">আপনার নাম</label><input id="name" autocomplete="name" placeholder="নাম লিখুন"></div>
+<div class="f"><label for="email">ইমেইল</label><input id="email" type="email" autocomplete="email" placeholder="ইমেইল লিখুন"></div>
+<div class="f"><label for="pw">পাসওয়ার্ড</label><input id="pw" type="password" autocomplete="current-password" placeholder="পাসওয়ার্ড লিখুন"><button type="button" class="eye" id="eye" aria-label="দেখান">👁</button></div>
+<div class="f hide" id="gPw2"><label for="pw2">পাসওয়ার্ড আবার</label><input id="pw2" type="password" autocomplete="new-password" placeholder="আবার লিখুন"></div>
+<div class="forgot" id="forgot"><button type="button" class="lnk" id="fg">পাসওয়ার্ড ভুলে গেছেন?</button></div>
+<button class="btn" id="go" type="submit">সাইন ইন  →</button>
+<p class="msg" id="msg" role="status"></p>
+</form>
+<div class="or">অথবা এর মাধ্যমে</div>
+<div class="soc">
+<button data-p="Google" aria-label="Google"><svg width="22" height="22" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg></button>
+<button data-p="GitHub" aria-label="GitHub"><svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.6 0 0 3.6 0 8c0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.500 7.500 0 0 1 4 0c1.500-1 2.200-.8 2.200-.8.4 1.100.2 1.900.1 2.100.5.6.8 1.300.8 2.100 0 3.100-1.900 3.700-3.600 3.900.3.3.5.8.5 1.500v2.200c0 .2.1.5.6.4A8 8 0 0 0 16 8c0-4.400-3.600-8-8-8z"/></svg></button>
+<button data-p="LinkedIn" aria-label="LinkedIn"><span style="color:#2f8fe0;font-weight:700;font-size:1.3rem;font-family:Arial,sans-serif">in</span></button>
+</div>
+<p class="sw"><span id="swq">অ্যাকাউন্ট নেই?</span> <button class="lnk" id="sw" type="button">সাইন আপ</button></p>
+</div>
+<div id="me" class="hide">
+<h1>স্বাগতম <span>🌿</span></h1>
+<p class="sub" id="who"></p>
+<button class="btn" id="out" type="button">সাইন আউট</button>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+var SUPABASE_URL="https://jlkyzwqnieknswawveua.supabase.co";
+var SUPABASE_KEY="sb_publishable_63D7T265mnvAsqB2n5o0CA_aYuSfeBk";
+var sb=null;try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)}catch(e){}
+var mode="in",$=function(i){return document.getElementById(i)};
+function say(t,ok){var m=$("msg");m.textContent=t;m.style.color=ok?"var(--ok)":"var(--err)"}
+function bnErr(e){
+var m=((e&&e.message)||"").toLowerCase();
+if(m.indexOf("invalid login")>-1)return "ইমেইল বা পাসওয়ার্ড ভুল";
+if(m.indexOf("already")>-1)return "এই ইমেইলে আগেই অ্যাকাউন্ট আছে";
+if(m.indexOf("not confirmed")>-1)return "আগে ইমেইলে পাঠানো লিঙ্কে কনফার্ম করুন";
+if(m.indexOf("rate")>-1||m.indexOf("seconds")>-1)return "একটু পরে আবার চেষ্টা করুন";
+return "সমস্যা হয়েছে: "+((e&&e.message)||"অজানা")}
+function setMode(m){
+mode=m;var up=m==="up";
+$("gName").classList.toggle("hide",!up);$("gPw2").classList.toggle("hide",!up);$("forgot").classList.toggle("hide",up);
+$("ttl").innerHTML=up?"অ্যাকাউন্ট <span>খুলুন</span>":"স্বাগতম <span>ফিরে আসুন</span>";
+$("sub").textContent=up?"নতুন অ্যাকাউন্ট তৈরি করুন":"চালিয়ে যেতে সাইন ইন করুন";
+$("go").textContent=up?"সাইন আপ  →":"সাইন ইন  →";
+$("swq").textContent=up?"আগেই অ্যাকাউন্ট আছে?":"অ্যাকাউন্ট নেই?";
+$("sw").textContent=up?"সাইন ইন":"সাইন আপ";
+$("pw").autocomplete=up?"new-password":"current-password";say("");
+}
+function showUser(u){
+$("authView").classList.toggle("hide",!!u);$("me").classList.toggle("hide",!u);
+if(u){var n=(u.user_metadata&&u.user_metadata.name)||"";$("who").textContent=(n?n+" · ":"")+(u.email||"")}
+}
+$("sw").onclick=function(){setMode(mode==="in"?"up":"in")};
+$("eye").onclick=function(){var t=$("pw").type==="password"?"text":"password";$("pw").type=t;$("pw2").type=t};
+$("fg").onclick=async function(){
+var em=$("email").value.trim();
+if(!/^\S+@\S+\.\S+$/.test(em))return say("আগে সঠিক ইমেইল লিখুন");
+if(!sb)return say("সংযোগ লোড হয়নি, ইন্টারনেট দেখুন");
+var r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.href.split("#")[0]});
+if(r.error)return say(bnErr(r.error));
+say("পাসওয়ার্ড রিসেটের লিঙ্ক ইমেইলে পাঠানো হয়েছে",true)};
+document.querySelectorAll(".soc button").forEach(function(b){b.onclick=async function(){
+if(!sb)return say("সংযোগ লোড হয়নি, ইন্টারনেট দেখুন");
+var r=await sb.auth.signInWithOAuth({provider:b.dataset.p.toLowerCase(),options:{redirectTo:location.href.split("#")[0]}});
+if(r.error)say(b.dataset.p+" লগইন এখনো চালু করা হয়নি")}});
+$("frm").onsubmit=async function(e){
+e.preventDefault();
+var n=$("name").value.trim(),em=$("email").value.trim(),p=$("pw").value;
+if(mode==="up"&&n.length<2)return say("নাম লিখুন");
+if(!/^\S+@\S+\.\S+$/.test(em))return say("সঠিক ইমেইল লিখুন");
+if(p.length<8)return say("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
+if(mode==="up"&&p!==$("pw2").value)return say("দুটি পাসওয়ার্ড মিলছে না");
+if(!sb)return say("সংযোগ লোড হয়নি, ইন্টারনেট দেখুন");
+var b=$("go");b.disabled=true;say("");
+try{
+if(mode==="up"){
+var r=await sb.auth.signUp({email:em,password:p,options:{data:{name:n},emailRedirectTo:location.href.split("#")[0]}});
+if(r.error)say(bnErr(r.error));
+else if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0)say("এই ইমেইলে আগেই অ্যাকাউন্ট আছে");
+else if(r.data.session)showUser(r.data.user);
+else say("ইমেইলে একটি কনফার্মেশন লিঙ্ক পাঠানো হয়েছে, সেটি খুলুন",true);
+}else{
+var r2=await sb.auth.signInWithPassword({email:em,password:p});
+if(r2.error)say(bnErr(r2.error));else showUser(r2.data.user);
+}
+}catch(x){say("নেটওয়ার্ক সমস্যা, আবার চেষ্টা করুন")}
+b.disabled=false};
+$("out").onclick=async function(){if(sb)await sb.auth.signOut();showUser(null);say("")};
+if(sb){
+sb.auth.getSession().then(function(r){if(r.data&&r.data.session)showUser(r.data.session.user)});
+sb.auth.onAuthStateChange(function(ev,ses){showUser(ses?ses.user:null)});
+}
+</script>
+</body>
+</html>
