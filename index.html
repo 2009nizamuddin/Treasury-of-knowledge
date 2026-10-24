@@ -88,7 +88,7 @@ function say(t,ok){var m=$("msg");m.textContent=t;m.style.color=ok?"var(--ok)":"
 function bnErr(e){
 var m=((e&&e.message)||"").toLowerCase();
 if(m.indexOf("invalid login")>-1)return "ইমেইল বা পাসওয়ার্ড ভুল";
-if(m.indexOf("phone provider")>-1||(m.indexOf("sending")>-1&&m.indexOf("sms")>-1))return "এসএমএস সেবা এখনো চালু হয়নি (Supabase-এ SMS provider সেট করতে হবে)";
+if(m.indexOf("phone provider")>-1||(m.indexOf("sending")>-1&&m.indexOf("sms")>-1))return "এসএমএস পাঠানো যায়নি। আসল কারণ: "+((e&&e.message)||"অজানা");
 if(m.indexOf("expired")>-1||m.indexOf("invalid")>-1)return "কোডটি ভুল বা মেয়াদোত্তীর্ণ";
 if(m.indexOf("already")>-1)return "এই ইমেইলে আগেই অ্যাকাউন্ট আছে";
 if(m.indexOf("not confirmed")>-1)return "আগে ইমেইলে পাঠানো লিঙ্কে কনফার্ম করুন";
